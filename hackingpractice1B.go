@@ -5,6 +5,7 @@ import (
 	"bufio"
 	"os"
 	"strings"
+	"strconv"
 )
 
 func askKey() int {
@@ -87,30 +88,65 @@ func main() {
 	fmt.Println(argsWithoutProg)
 	fmt.Println(arg)
 */
-	fmt.Printf("Encrypt(1) or Decrypt(2)? ")
 
-	var EnOrDe int;
+	args := os.Args
 
-	fmt.Scanf("%d", &EnOrDe)
+	if len(args) == 1 {
+
+		fmt.Printf("Encrypt(1) or Decrypt(2)? ")
+
+		var EnOrDe int;
+
+		fmt.Scanf("%d", &EnOrDe)
 
 
-	if EnOrDe == 1 {
-		fmt.Printf("This is Encrypt practice about Go\n");
+		if EnOrDe == 1 {
+			fmt.Printf("This is Encrypt practice about Go\n");
 
-		key := askKey()
+			key := askKey()
 
-		stringForEncrypt := askString()
+			stringForEncrypt := askString()
 
-		fmt.Print( encryptString( key, stringForEncrypt ) )
+			fmt.Print( encryptString( key, stringForEncrypt ) )
 
-	} else if EnOrDe == 2 {
-		fmt.Printf("This is Decrypt practice about Go\n");
+		} else if EnOrDe == 2 {
+			fmt.Printf("This is Decrypt practice about Go\n");
 
-		key := askKey()
+			key := askKey()
 
-		stringForDecrypt := askString()
+			stringForDecrypt := askString()
 
-		fmt.Print( decryptString( key, stringForDecrypt ) )
+			fmt.Print( decryptString( key, stringForDecrypt ) )
+		}
+	} else {
+		EnOrDe, err := strconv.Atoi(args[1])
+
+		if err != nil {
+			fmt.Print("Arguments: Encrypt(1) or Decrypt(2), key, string\n")
+			os.Exit(-1)
+		}
+
+		if EnOrDe == 1 {
+
+			key, err := strconv.Atoi(args[2])
+
+			if err != nil {
+				fmt.Print("Arguments: Encrypt(1) or Decrypt(2), key, string\n")
+				os.Exit(-1)
+			}
+
+			fmt.Print( encryptString( key, args[3] ), "\n" )
+
+		} else if EnOrDe == 2 {
+
+			key, err := strconv.Atoi(args[2])
+
+			if err != nil {
+				fmt.Print("Arguments: Encrypt(1) or Decrypt(2), key, string\n")
+				os.Exit(-1)
+			}
+			fmt.Print( decryptString( key, args[3] ), "\n" )
+		}
 	}
 
 //	fmt.Printf("key is %d", key)
